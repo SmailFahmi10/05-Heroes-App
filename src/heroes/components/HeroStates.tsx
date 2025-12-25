@@ -1,21 +1,24 @@
 import { Badge } from "@/components/ui/badge";
 import { Heart, Trophy, Users, Zap } from "lucide-react";
+import { useHeroSummary } from "../hooks/useHeroSummary";
 import { HeroStatCard } from "./HeroStatCard";
 
 export const HeroStates = () => {
+  const { data: summary } = useHeroSummary();
+
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
       <HeroStatCard
         title="Total Personajes"
         icon={<Users className="h-4 w-4 text-muted-foreground" />}
       >
-        <div className="text-2xl font-bold">16</div>
+        <div className="text-2xl font-bold"> {summary?.totalHeroes} </div>
         <div className="flex gap-1 mt-2">
           <Badge variant="secondary" className="text-xs">
-            12 Heroes
+            {summary?.heroCount} Heroes
           </Badge>
           <Badge variant="destructive" className="text-xs">
-            2 Villains
+            {summary?.villainCount} Villains
           </Badge>
         </div>{" "}
       </HeroStatCard>
@@ -31,15 +34,19 @@ export const HeroStates = () => {
         title="Fuerte"
         icon={<Zap className="h-4 w-4 text-muted-foreground" />}
       >
-        <div className="text-lg font-bold">Fuerza</div>
-        <p className="text-xs text-muted-foreground">Fuerza: 10/10</p>
+        <div className="text-lg font-bold">{summary?.strongestHero.alias}</div>
+        <p className="text-xs text-muted-foreground">
+          Fuerza: {summary?.strongestHero.strength}
+        </p>
       </HeroStatCard>
       <HeroStatCard
         title="Inteligente"
         icon={<Trophy className="h-4 w-4 text-muted-foreground" />}
       >
-        <div className="text-lg font-bold">Batman</div>
-        <p className="text-xs text-muted-foreground">Inteligencia: 10/10</p>
+        <div className="text-lg font-bold">{summary?.smartestHero.alias}</div>
+        <p className="text-xs text-muted-foreground">
+          Inteligencia:{summary?.smartestHero.intelligence}
+        </p>
       </HeroStatCard>
     </div>
   );
